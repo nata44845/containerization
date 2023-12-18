@@ -1,0 +1,62 @@
+//ubuntu
+
+sudo su
+
+docker run -it ubuntu:23.10 bash
+ls -l
+top
+apt update && apt install iproute2
+ip a
+exit
+
+docker ps
+docker ps -a
+
+docker start nifty_ptolemy
+docker exec -it nifty_ptolemy bash
+
+docker run -it -h GB --name myubuntu ubuntu:23.10 bash
+
+docker stop 07750ac42d36
+docker rm 07750ac42d36
+
+
+//mariadb
+
+https://hub.docker.com/_/mariadb
+
+docker run --detach --name some-mariadb --env MARIADB_ROOT_PASSWORD=password1  mariadb:latest
+docker network create some-network 
+docker run --detach --network some-network --name some-mariadb --env MARIADB_USER=example-user --env MARIADB_PASSWORD=my_cool_secret --env MARIADB_ROOT_PASSWORD=my-secret-pw  mariadb:latest
+
+//Наш вариант
+cd gblinux
+mkdir mydb
+cd mydb
+docker run --name mymariadb -d --env MARIADB_ROOT_PASSWORD=test123 -v /home/nata44845/gblinux/mydb:/var/lib/mysql mariadb:10.10.2
+docker ps -a
+docker exec -it mymariadb bash
+
+mysql -u root -p 
+show databases;
+create database GB;
+exit
+exit
+
+
+//phpmyadmin
+
+https://hub.docker.com/_/phpmyadmin
+
+//Пример
+docker run --name phpmyadmin -d --link mysql_db_server:db -p 8080:80 -v /some/local/directory/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php phpmyadmin
+
+
+//Наш вариант
+docker run --name phpmyadmin -d --link mymariadb:db -p 8081:80 phpmyadmin/phpmyadmin
+
+localhost:8081
+
+
+
+
