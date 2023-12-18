@@ -1,0 +1,115 @@
+sudo apt install cowsay
+/usr/games/cowsay GeekBrains
+/usr/games/cowthink Hi
+
+cd gblinux
+mkdir cont4
+cd cont4
+nano Dockerfile
+
+FROM ubuntu:22.04
+RUN apt-get update
+RUN apt-get install cowsay -y
+RUN ln -s /usr/games/cowsay /usr/bin/cowsay
+CMD ["cowsay"]
+
+cat Dockerfile
+//Построить файл
+sudo docker build -t cowsaytest .
+//Посмотреть образы
+docker images
+//Запуск
+docker run -it cowsaytest bash
+ps -aux
+hostname
+cowsay Hi
+
+//Запуск в системе
+docker run cowsaytest cowsay GeekBrains
+
+nano Dockerfile
+
+FROM ubuntu:22.04
+RUN apt-get update && \
+    apt-get install cowsay -y && \
+    ln -s /usr/games/cowsay /usr/bin/cowsay     
+RUN rm -rf /var/lib/apt/lists/*
+CMD ["cowsay"]
+
+sudo docker build -t cowsaytest .
+docker images
+
+FROM ubuntu:22.04
+RUN apt-get update && \
+    apt-get install cowsay -y && \
+    ln -s /usr/games/cowsay /usr/bin/cowsay && \     
+    rm -rf /var/lib/apt/lists/*
+CMD ["cowsay"]
+
+sudo docker build -t cowsaytest .
+docker images
+
+nano Dockerfile
+
+FROM alpine
+RUN apk update && \
+    apk add cowsay \
+    --update-cache \
+    --repository https://alpine.global.ssl.fastly.net/alpine/edge/community \
+    --repository https://alpine.global.ssl.fastly.net/alpine/edge/main \
+    --repository https://dl-3.alpinelinux.org/alpine/edge/testing && \
+    rm -rf /var/cache/apk/*
+CMD ["cowsay"]
+
+sudo docker build -t cowsaytest .
+docker images
+
+nano Dockerfile
+
+FROM alpine
+RUN echo "123" > /test
+RUN apk update && \
+    apk add cowsay \
+    --update-cache \
+    --repository https://alpine.global.ssl.fastly.net/alpine/edge/community \
+    --repository https://alpine.global.ssl.fastly.net/alpine/edge/main \
+    --repository https://dl-3.alpinelinux.org/alpine/edge/testing && \
+    rm -rf /var/cache/apk/*
+CMD ["cowsay"]
+
+sudo docker build -t cowsaytest .
+docker images
+//Пересборка не работает
+sudo docker build -t cowsaytest .
+
+nano Dockerfile
+
+FROM alpine
+RUN echo "1234" > /test
+RUN apk update && \
+    apk add cowsay \
+    --update-cache \
+    --repository https://alpine.global.ssl.fastly.net/alpine/edge/community \
+    --repository https://alpine.global.ssl.fastly.net/alpine/edge/main \
+    --repository https://dl-3.alpinelinux.org/alpine/edge/testing && \
+    rm -rf /var/cache/apk/*
+CMD ["cowsay"]
+
+sudo docker build -t cowsaytest .
+
+nano Dockerfile
+
+FROM alpine
+RUN apk update && \
+    apk add cowsay \
+    --update-cache \
+    --repository https://alpine.global.ssl.fastly.net/alpine/edge/community \
+    --repository https://alpine.global.ssl.fastly.net/alpine/edge/main \
+    --repository https://dl-3.alpinelinux.org/alpine/edge/testing && \
+    rm -rf /var/cache/apk/*
+RUN echo "123" > /test
+CMD ["cowsay"]
+
+sudo docker build -t cowsaytest .
+
+//Часто изменяемые слои ставим в конце

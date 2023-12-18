@@ -1,0 +1,31 @@
+
+1)	запустить контейнер с БД mariaDB, используя инструкции на сайте: https://hub.docker.com/
+2)	добавить в контейнер hostname такой же, как hostname системы через переменную
+
+cd gblinux
+mkdir cont3
+cd cont3
+mkdir gbdb
+cd gbdb 
+docker run --name mymariadb -d -h ubuntu2204 --env MARIADB_ROOT_PASSWORD=test123 -v /home/nata44845/gblinux/cont3/gbdb:/var/lib/mysql mariadb:10.10.2
+
+3)	заполнить БД данными через консоль
+
+docker ps -a 
+docker exec -it mymariadb bash 
+mysql -u root -p 
+show databases; 
+create database gb; 
+use gb;
+create table test (id INT, name varchar(50));
+insert into test(id,name) VALUES(1,'Maria'),(2,'Lena');
+select * from test;
+exit 
+exit
+
+4)	запустить phpmyadmin (в контейнере) и через веб проверить, что все введенные данные доступны
+
+docker run --name phpmyadmin -d --link mymariadb:db -p 8081:80 phpmyadmin/phpmyadmin 
+
+localhost:8081
+ 
