@@ -24,6 +24,8 @@ ps -aux
 hostname
 cowsay Hi
 
+exit
+
 //Запуск в системе
 docker run cowsaytest cowsay GeekBrains
 
