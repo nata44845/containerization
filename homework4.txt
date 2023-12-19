@@ -1,0 +1,30 @@
+Задание: необходимо создать Dockerfile, основанный на любом образе (вы в праве выбрать самостоятельно).
+В него необходимо поместить приложение, написанное на любом известном вам языке программирования (Python, Java, C, С#, C++).
+При запуске контейнера должно запускаться самостоятельно написанное приложение.
+
+cd gblinux
+mkdir conth4
+cd conth4
+
+sudo su
+nano python.py
+
+print("Hello, world!")
+
+nano dockerfile
+                                                               
+FROM ubuntu:22.04
+RUN apt update &&\
+    apt install python3-pip -y
+COPY python.py .
+CMD ["python3","python.py"]
+
+
+docker build -t hellopy .
+
+docker images
+
+docker run hellopy
+
+Hello, world!
+
