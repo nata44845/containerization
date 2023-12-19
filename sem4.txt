@@ -1,0 +1,29 @@
+cd gblinux
+mkdir contsem4
+cd contsem4
+
+nano dockerfile
+
+FROM ubuntu:23.10
+RUN apt update && apt install nginx -y
+#COPY ./website /var/www/html
+#COPY site.conf /etc/nginx/sites-available/site.conf
+#RUN ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled/site.conf
+LABEL "website.name"="geekBrains"
+WORKDIR /var/www
+ENV WEBPATH=/var/www/html
+EXPOSE 80
+VOLUME /var/www
+CMD ["nginx","-g","daemon off;"]
+
+sudo docker build -t mygbnginx .
+sudo docker run -d -p 8081:80 mygbnginx
+
+sudo docker ps -a
+sudo docker exec -it 3461860efe70 bash
+
+top
+echo $WEBPATH
+exit
+
+localhost:8081
