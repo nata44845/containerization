@@ -1,0 +1,97 @@
+//Очистить
+docker system prune -af
+docker run -d --name mysqlname -p 3307:3306 -e MYSQL_ROOT_PASSWORD=test123 mysql:8.0.31
+docker run --name myphp -d --link mysqlname:db -p 8081:80 phpmyadmin/phpmyadmin
+
+
+cd gblinux
+mkdir cont5
+cd cont5
+nano example.yaml
+
+first_name: Vladlen
+last_name: Melnik
+animals:
+	cat:
+		name: Simba
+		age: 1
+	dog: 
+		name: July
+		age: 2
+
+nano project.yaml
+
+version: '3.9'
+
+services:
+  db:
+    image: mariadb:10.10.2
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+    ports:
+      - 3068:3066
+
+  adminer:
+    image: adminer:4.8.1
+    restart: always
+    ports: 
+      - 6080:8080
+
+
+Можно так
+	 build: ./db - dockerfile
+
+mv project.yaml docker-compose.yaml
+
+docker-compose up
+docker ps -a
+docker-compose up -d
+docker ps -a
+
+docker container inspect cont5_adminer_1
+docker container inspect cont5_db_1
+
+localhost:6080
+root/12345
+
+docker-compose stop
+docker-compose start
+
+docker-compose logs
+docker-compose down
+
+
+
+docker swarm init
+docker node ls
+
+Запустить на других нодах скрипт для добавления как worker
+
+//Покинуть кластер
+docker swarm leave
+docker node rm ...
+
+//Добавить ноду в лидеры
+docker node promote docker-2
+
+docker node --help
+
+docker node inspect docker-2
+
+docker network ls
+
+docker network create --driver overlay --subnet 4.5.6.7/24 test-network --attachable
+
+docker run -d --ip 4.5.6.7 --net test-network --name container-1 busybox sleep 3600
+на 2 ноде
+docker run -d --ip 4.5.6.7 --net test-network --name container-2 busybox sleep 3600
+
+docker exec -it container-1 sh
+
+ip a
+ll /var/run/docker/netns
+
+nsenter --net=/var/run/docker/netns/1-vd...... ip -d link show
+
+
