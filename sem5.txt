@@ -1,0 +1,61 @@
+docker system prune -af
+
+cd gblinux
+mkdir contsem5
+cd contsem5
+
+nano docker-compose.yaml
+
+version: '3.9'
+
+services:
+  db:
+    build: ./db
+      #dockerfile: ./Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+    restart: unless-stopped
+    ports:
+      - 3068:3066
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - app-network
+    deploy:
+      mode: replicated
+      replicas: 2
+
+  adminer:
+    image: adminer:4.8.1
+    restart: always
+    ports:
+      - 6080:8080
+    volumes:
+      - ./myfolder: /myfolder
+    networks:
+      - app-network
+    deploy:
+      mode: replicated
+      replicas: 1
+
+volumes:
+  db:
+
+networks:
+  app-network:
+    driver: bridge
+
+
+mkdir db
+cd db
+
+nano Dockerfile
+
+FROM mariadb:10.10.2
+RUN mkdir /test
+
+cd ..
+
+docker-compose up -d
+
+http://localhost:6080
